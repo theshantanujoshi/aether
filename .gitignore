@@ -1,0 +1,21 @@
+.rocketride/
+.agents/
+.claude/
+skills-lock.json
+
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/.pytest_cache/
+backend/.env
+backend/local_memory.db
+*.pyc
+
+# Frontend
+node_modules/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,53 @@
+{
+	"components": [
+		{
+			"id": "webhook_1",
+			"provider": "webhook",
+			"config": {
+				"hideForm": true,
+				"mode": "Source",
+				"parameters": {},
+				"type": "webhook"
+			}
+		},
+		{
+			"id": "llm_agent_b",
+			"provider": "llm_openai",
+			"config": {
+				"profile": "agent-b-profile",
+				"agent-b-profile": {
+					"apikey": "${ROCKETRIDE_OPENAI_KEY}",
+					"modelSource": "${ROCKETRIDE_OPENAI_BASE_URL}",
+					"model": "${ROCKETRIDE_OPENAI_MODEL}"
+				},
+				"parameters": {}
+			},
+			"input": [
+				{
+					"lane": "text",
+					"from": "webhook_1"
+				}
+			]
+		},
+		{
+			"id": "response_1",
+			"provider": "response_text",
+			"config": {
+				"laneName": "text"
+			},
+			"input": [
+				{
+					"lane": "text",
+					"from": "llm_agent_b"
+				}
+			]
+		}
+	],
+	"project_id": "76e9c609-b7b5-4b8c-b033-ff1a6c4b22c7",
+	"viewport": {
+		"x": 0,
+		"y": 0,
+		"zoom": 1
+	},
+	"version": 1
+}

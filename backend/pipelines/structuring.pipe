@@ -1,0 +1,133 @@
+{
+  "components": [
+    {
+      "id": "webhook_1",
+      "provider": "webhook",
+      "name": "Webhook",
+      "config": {
+        "hideForm": true,
+        "mode": "Source",
+        "parameters": {},
+        "type": "webhook"
+      },
+      "ui": {
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "llm_agent_a",
+      "provider": "llm_openai",
+      "name": "OpenAI",
+      "config": {
+        "profile": "agent-a-profile",
+        "agent-a-profile": {
+          "apikey": "${ROCKETRIDE_OPENAI_KEY}",
+          "modelSource": "${ROCKETRIDE_OPENAI_BASE_URL}",
+          "model": "${ROCKETRIDE_OPENAI_MODEL}"
+        },
+        "parameters": {}
+      },
+      "ui": {
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "nodeType": "default",
+        "formDataValid": false
+      },
+      "input": [
+        {
+          "lane": "text",
+          "from": "webhook_1"
+        }
+      ]
+    },
+    {
+      "id": "embedding_1",
+      "provider": "embedding_transformer",
+      "name": "Transformer",
+      "config": {
+        "profile": "miniLM",
+        "parameters": {}
+      },
+      "ui": {
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "nodeType": "default",
+        "formDataValid": true
+      },
+      "input": [
+        {
+          "lane": "text",
+          "from": "llm_agent_a"
+        }
+      ]
+    },
+    {
+      "id": "qdrant_1",
+      "provider": "qdrant",
+      "name": "Qdrant",
+      "config": {
+        "profile": "local",
+        "local": {
+          "collection": "structured_events",
+          "host": "${ROCKETRIDE_QDRANT_HOST}",
+          "port": 6333
+        },
+        "parameters": {}
+      },
+      "ui": {
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "nodeType": "default",
+        "formDataValid": false
+      },
+      "input": [
+        {
+          "lane": "documents",
+          "from": "embedding_1"
+        }
+      ]
+    },
+    {
+      "id": "response_1",
+      "provider": "response_text",
+      "name": "Return Text",
+      "config": {
+        "laneName": "text"
+      },
+      "ui": {
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "nodeType": "default",
+        "formDataValid": true
+      },
+      "input": [
+        {
+          "lane": "text",
+          "from": "llm_agent_a"
+        }
+      ]
+    }
+  ],
+  "project_id": "b992f036-71d3-4f51-b0be-d30f40d85ab2",
+  "version": 1,
+  "isLocked": false,
+  "snapToGrid": true,
+  "snapGridSize": [
+    10,
+    10
+  ],
+  "docRevision": 1
+}
