@@ -1,4 +1,4 @@
-# Aether (RocketRide Local-First Data Synthesizer)
+# Aether 
 
 A privacy-first personal activity intelligence system that turns fragmented local digital exhaust—terminal activity, browser history, notes, screenshots, and app logs—into a searchable, narrative daily recap without requiring raw personal data to leave the user's machine.
 
