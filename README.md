@@ -19,7 +19,7 @@ The repository contains instructions and support scripts, not a running activity
 With Node.js 18 or newer, run this from the root of the repository where you want to use Aether:
 
 ```powershell
-npx aether-agent-kit@0.1.0 install
+npx aether-agent-suite@0.1.0 install
 ```
 
 The command copies the Aether skills, Codex and Claude agent entries, and graph renderer into the current directory. It creates `AGENTS.md` if one is absent. If you already have `AGENTS.md`, keep your existing instructions and add a reference to `.agents/skills/aether-workflow/SKILL.md` for activity-to-memory tasks and the repository graph skills for visualization. Installation stops if an Aether file already exists, so it will not overwrite local edits. The package does not collect activity or run a background process.

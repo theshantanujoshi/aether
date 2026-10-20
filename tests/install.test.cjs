@@ -70,7 +70,7 @@ test('packed artifact installs and runs without registry access', (t) => {
     env: installEnv,
   });
   assert.equal(installed.status, 0, installed.stderr);
-  const packageDir = path.join(consumer, 'node_modules/aether-agent-kit');
+  const packageDir = path.join(consumer, 'node_modules/aether-agent-suite');
   assert.ok(fs.statSync(path.join(packageDir, 'LICENSE')).isFile());
   assert.ok(!fs.existsSync(path.join(packageDir, 'tests')));
 
