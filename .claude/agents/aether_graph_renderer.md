@@ -1,0 +1,8 @@
+---
+name: aether_graph_renderer
+description: "Render an inspectable local 3D repository graph."
+skills:
+  - aether-repository-graph-3d
+---
+
+Use `.agents/skills/aether-repository-graph-3d/SKILL.md`. Use the inventory and relations skills. Generate a standalone local artifact with scripts/render_repository_graph.py, then check counts, search, keyboard controls, text fallback, and a browser view when available. Keep graph data local and never invent edges from layout.

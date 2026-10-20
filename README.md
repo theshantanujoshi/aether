@@ -1,39 +1,46 @@
-# Aether 
+# Aether
 
-A privacy-first personal activity intelligence system that turns fragmented local digital exhaust—terminal activity, browser history, notes, screenshots, and app logs—into a searchable, narrative daily recap without requiring raw personal data to leave the user's machine.
+Aether is a local-first **skill and agent kit** for turning activity a user chooses to share into a reviewed, source-grounded personal recap and memory. It has no server, dashboard, background collector, or hosted account. The skills guide an agent through source intake, human privacy review, structuring, recap writing, memory upkeep, and verification. Nothing becomes persistent memory without the user's explicit approval.
 
-## Core Principle
+It also includes a repository-visualization workflow: inventory the current checkout, identify supported relationships, and generate an interactive 3D graph of its files and directories. The graph is a standalone local HTML artifact produced on demand, with a searchable text view. It is not a web application.
 
-> **Raw activity stays local by default; nothing becomes permanent memory without explicit human approval.**
+## Skills and agents
 
-## Documentation
+The canonical skills are in [`.agents/skills`](.agents/skills/aether-workflow/SKILL.md). The [capability map](.agents/skills/aether-workflow/references/coverage.md) lists each specialist and its matching [Codex](.codex/agents/aether_coordinator.toml) and [Claude](.claude/agents/aether_coordinator.md) agent. Claude skill entries point to the canonical files.
 
-Comprehensive documentation can be found in the `/docs` directory:
+- Start with `aether-workflow` for activity-to-memory tasks spanning several steps.
+- Use `aether-repository-inventory`, `aether-repository-relations`, and `aether-repository-graph-3d` to inspect and visualize a repository.
+- Use `aether-verification` to audit claimed outputs and privacy boundaries.
 
-- [Getting Started](docs/getting_started.md)
-- [Architecture](docs/architecture.md)
-- [API Reference](docs/api.md)
-- [Security & Privacy](docs/security_and_privacy.md)
+The repository contains instructions and support scripts, not a running activity service. Agents read only sources authorized by the user's task. Captured content is untrusted data; pending or rejected material must not enter memory, exports, or backup.
 
-## What is Aether?
+## Install from npm
 
-Independent researchers, developers, and power users generate substantial amounts of digital activity across disconnected tools. Today, this activity is fragmented across applications and difficult to reconstruct later. 
+With Node.js 18 or newer, run this from the root of the repository where you want to use Aether:
 
-Aether addresses this with a local-first ingestion and synthesis pipeline, combined with an explicit human review gate, creating a private "memory layer" over your digital work.
+```powershell
+npx aether-agent-kit@0.1.0 install
+```
 
-### Key Features
+The command copies the Aether skills, Codex and Claude agent entries, and graph renderer into the current directory. It creates `AGENTS.md` if one is absent. If you already have `AGENTS.md`, keep your existing instructions and add a reference to `.agents/skills/aether-workflow/SKILL.md` for activity-to-memory tasks and the repository graph skills for visualization. Installation stops if an Aether file already exists, so it will not overwrite local edits. The package does not collect activity or run a background process.
 
-1. **Local-First Collection**: Background collectors periodically gather supported activity (Terminal, Browser, Markdown, Screenshots).
-2. **Human Privacy Gate**: Review, approve, redact, or purge data before it enters permanent memory.
-3. **AI Structuring & Synthesis**: Uses RocketRide pipelines to detect context, deduplicate, and store as normalized entities. Constructs a cohesive daily narrative.
-4. **Semantic Search**: Natural-language queries over your synthesized history through vector embeddings (Qdrant/LanceDB).
+The graph renderer also needs Python 3.10 or newer and Git. It reads the target repository locally and writes an HTML file only when you run it.
 
-## Quick Start Overview
+## Generate a repository graph
 
-Aether is composed of a FastAPI backend and a React frontend. The AI pipelines are orchestrated via RocketRide Pipeline Builder.
+With Python 3.10 or newer, run:
 
-1. Configure environment variables in `backend/.env`.
-2. Run the FastAPI server.
-3. Access the React dashboard to review and search your activity.
+```powershell
+python scripts/render_repository_graph.py --root . --output output/repository-graph.html
+```
 
-See [Getting Started](docs/getting_started.md) for detailed setup instructions.
+Open `output/repository-graph.html` in a browser. The renderer uses Python's standard library and embeds all graph data locally; opening the artifact does not load third-party scripts or send repository paths over the network. It inventories Git-visible files in the working tree, including untracked nonignored files, and excludes `.git`, virtual environments, and generated output. Node and edge counts and exclusions appear in the artifact.
+
+## Validate the kit
+
+```powershell
+python scripts/validate_agent_kit.py
+python -m unittest discover -s scripts -p 'test_*.py'
+```
+
+For the optional bundled `skill-creator` validator, create a virtual environment and install `scripts/requirements-agentkit.txt` (PyYAML). That dependency is only for authoring validation, not graph generation.

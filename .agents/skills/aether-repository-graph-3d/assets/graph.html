@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aether · Repository Atlas</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #080c15; color: #e9edf6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid #e6b75c; outline-offset: 3px; }
+    .shell { display: grid; grid-template-columns: minmax(0, 1fr) 340px; height: 100vh; overflow: hidden; width: 100%; }
+    .main { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+    header { display: flex; justify-content: space-between; align-items: start; gap: 20px; padding: 25px 30px 18px; border-bottom: 1px solid #273042; background: #0c1320; }
+    .eyebrow { color: #e6b75c; text-transform: uppercase; letter-spacing: .18em; font-size: 11px; font-weight: 750; }
+    h1 { font-size: clamp(24px, 3vw, 36px); letter-spacing: -.04em; margin: 6px 0; line-height: 1.1; }
+    .subtitle { margin: 0; color: #a9b8d0; font-size: 13px; max-width: 720px; line-height: 1.5; }
+    .badge { border: 1px solid #3c526d; border-radius: 999px; padding: 8px 12px; color: #c8d8ee; font-size: 12px; white-space: nowrap; }
+    .scene { position: relative; flex: 1; min-height: 0; overflow: hidden; background: radial-gradient(circle at 48% 45%, #15243a 0%, #0b1321 44%, #070c15 100%); }
+    canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+    canvas:active { cursor: grabbing; }
+    .legend { position: absolute; left: 25px; bottom: 22px; display: flex; gap: 15px; flex-wrap: wrap; pointer-events: none; background: #0a1220df; border: 1px solid #304055; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #c5d0df; max-width: calc(100% - 50px); }
+    .swatch { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .hint { position: absolute; right: 22px; bottom: 22px; color: #9eb0c9; font-size: 11px; background: #0a1220df; padding: 8px 10px; border-radius: 6px; }
+    aside { border-left: 1px solid #283246; background: #0e1624; display: flex; flex-direction: column; min-height: 0; min-width: 0; overflow: hidden; }
+    .panel { padding: 20px; border-bottom: 1px solid #273246; min-width: 0; }
+    .panel h2 { margin: 0 0 12px; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; color: #9aacca; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .stat { border: 1px solid #2c3a50; border-radius: 8px; padding: 10px; background: #121e2e; }
+    .stat strong { display: block; font-size: 20px; font-weight: 650; }
+    .stat span { display: block; color: #a5b2c5; font-size: 10px; margin-top: 2px; }
+    .meta { color: #a8b6cc; font-size: 12px; line-height: 1.6; margin: 12px 0 0; overflow-wrap: anywhere; }
+    .controls { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+    .controls button, .item { background: #172438; border: 1px solid #344762; color: #e8eef8; border-radius: 6px; padding: 8px; }
+    .controls button:hover, .item:hover { background: #25405e; }
+    .toggle { display: flex; align-items: center; gap: 9px; color: #bdc9da; font-size: 12px; margin-top: 13px; }
+    .toggle input { accent-color: #edbb65; }
+    .search { display: block; width: 100%; background: #0b1321; color: #edf2f9; border: 1px solid #405069; border-radius: 7px; padding: 10px 11px; }
+    .selection { min-height: 88px; }
+    .selection strong { display: block; font-size: 13px; overflow-wrap: anywhere; }
+    .selection p { color: #a5b5c9; font-size: 12px; line-height: 1.5; margin: 8px 0 0; }
+    .file-panel { display: flex; flex-direction: column; flex: 1; min-height: 0; border-bottom: 0; }
+    .file-panel h2 { display: flex; justify-content: space-between; }
+    .file-panel h2 span { color: #d6e0ef; }
+    .file-list { overflow: auto; flex: 1; min-height: 0; margin: 0; padding: 0; list-style: none; }
+    .file-list li { margin: 0 0 5px; }
+    .item { text-align: left; width: 100%; font-size: 12px; line-height: 1.35; overflow-wrap: anywhere; padding: 7px 9px; }
+    .item[aria-current="true"] { border-color: #e6b75c; background: #3b3024; }
+    .item small { display: block; color: #97a9c2; font-size: 10px; margin-top: 2px; }
+    @media (max-width: 900px) { .shell { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 100vh; overflow: visible; } header { flex-direction: column; padding: 20px; } .badge { align-self: flex-start; } .main { min-height: 56vh; } .scene { min-height: 56vh; } .legend { left: 12px; right: 12px; bottom: 12px; max-width: none; gap: 8px; font-size: 10px; } aside { border-left: 0; border-top: 1px solid #283246; overflow: visible; } .file-panel { min-height: 220px; } .file-list { max-height: 280px; min-height: 120px; } .hint { display: none; } }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <main class="main">
+      <header>
+        <div><div class="eyebrow">Aether / Repository Atlas</div><h1 id="title">Repository graph</h1><p class="subtitle">A perspective 3D map of Git-visible files. Lines show containment; amber lines show explicit file references. Spatial proximity is layout, not an architectural claim.</p></div>
+        <div class="badge" id="revision"></div>
+      </header>
+      <div class="scene">
+        <canvas id="graph" tabindex="0" role="img" aria-label="Interactive 3D repository graph. Use arrow keys to rotate, plus or minus to zoom, or use the controls and searchable file list."></canvas>
+        <div class="legend" aria-hidden="true"><span><i class="swatch" style="background:#edbb65"></i>Repository</span><span><i class="swatch" style="background:#6ebbd0"></i>Directory</span><span><i class="swatch" style="background:#a8b6d2"></i>File</span><span>— Containment</span><span style="color:#edbb65">— Reference</span></div>
+        <div class="hint">Drag to rotate · Scroll to zoom · Click a node</div>
+      </div>
+    </main>
+    <aside aria-label="Graph controls and text view">
+      <section class="panel"><h2>Snapshot</h2><div class="stats"><div class="stat"><strong id="files"></strong><span>FILES</span></div><div class="stat"><strong id="folders"></strong><span>DIRECTORIES</span></div><div class="stat"><strong id="links"></strong><span>REFERENCES</span></div></div><p class="meta" id="meta"></p></section>
+      <section class="panel"><h2>View controls</h2><div class="controls"><button type="button" id="left" aria-label="Rotate left">←</button><button type="button" id="up" aria-label="Rotate up">↑</button><button type="button" id="down" aria-label="Rotate down">↓</button><button type="button" id="right" aria-label="Rotate right">→</button><button type="button" id="reset" aria-label="Reset view">↺</button></div><div class="controls" style="margin-top:5px;grid-template-columns:1fr 1fr"><button type="button" id="zoom-in">Zoom in +</button><button type="button" id="zoom-out">Zoom out −</button></div><label class="toggle"><input id="show-references" type="checkbox"> Show explicit references</label></section>
+      <section class="panel selection" aria-live="polite"><h2>Selected node</h2><strong id="selected-path">Select a node or file</strong><p id="selected-info">Use the canvas or the searchable list below.</p></section>
+      <section class="panel file-panel"><h2>Repository files <span id="match-count"></span></h2><label for="search" class="eyebrow" style="display:block;margin-bottom:8px">Search paths</label><input id="search" class="search" type="search" placeholder="Filter by path or name" autocomplete="off"><ul class="file-list" id="file-list" aria-label="Searchable repository file list"></ul></section>
+    </aside>
+  </div>
+  <script type="application/json" id="graph-data">__AETHER_GRAPH_DATA__</script>
+  <script>
+    (() => {
+      'use strict';
+      const data = JSON.parse(document.getElementById('graph-data').textContent);
+      const byId = new Map(data.nodes.map(n => [n.id, n]));
+      const children = new Map();
+      for (const e of data.edges) if (e.kind === 'contains') { if (!children.has(e.source)) children.set(e.source, []); children.get(e.source).push(e.target); }
+      for (const ids of children.values()) ids.sort((a, b) => a.localeCompare(b));
+      byId.get('.').position = {x: 0, y: 0, z: 0};
+      const queue = ['.'];
+      while (queue.length) {
+        const parentId = queue.shift(), parent = byId.get(parentId), ids = children.get(parentId) || [];
+        ids.forEach((id, i) => {
+          const child = byId.get(id), n = ids.length, golden = 2.399963229728653, angle = i * golden + child.depth * .5;
+          const radius = parentId === '.' ? 135 + Math.sqrt(n) * 16 : 37 + Math.sqrt(n) * 8;
+          const layer = n === 1 ? 0 : (i / (n - 1) - .5) * 1.7;
+          child.position = {x: parent.position.x + Math.cos(angle) * radius * Math.sqrt(1 - Math.min(.9, layer * layer)), y: parent.position.y + layer * radius, z: parent.position.z + Math.sin(angle) * radius * Math.sqrt(1 - Math.min(.9, layer * layer))};
+          queue.push(id);
+        });
+      }
+      const canvas = document.getElementById('graph'), ctx = canvas.getContext('2d');
+      let yaw = -.36, pitch = -.18, zoom = 1, selected = null, hovered = null, projected = [], dragging = false, start = null;
+      const extent = Math.max(180, ...data.nodes.map(n => Math.hypot(n.position.x, n.position.y, n.position.z)));
+      const colors = {root: '#edbb65', directory: '#6ebbd0', file: '#a8b6d2'};
+      const $ = id => document.getElementById(id);
+      $('title').textContent = data.meta.repository + ' / Repository graph';
+      $('revision').textContent = data.meta.revision + (data.meta.working_tree_modified ? ' · working tree' : ' · clean');
+      $('files').textContent = data.meta.file_count;
+      $('folders').textContent = data.meta.directory_count;
+      $('links').textContent = data.meta.reference_count;
+      $('meta').textContent = `Generated ${data.meta.generated_at} · ${data.meta.method}. Excluded directories: ${data.meta.excluded.join(', ')}. Skipped ${data.meta.removed_index_paths} removed index paths, ${data.meta.excluded_entries} generated entries, and ${data.meta.unsafe_entries} unsafe entries. No source contents or external scripts are included.`;
+      function resize() { const rect = canvas.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1); canvas.width = Math.max(1, Math.round(rect.width * dpr)); canvas.height = Math.max(1, Math.round(rect.height * dpr)); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw(); }
+      function project(n, w, h) {
+        const {x, y, z} = n.position, cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+        const rx = x * cy - z * sy, rz = x * sy + z * cy, ry = y * cp - rz * sp, rz2 = y * sp + rz * cp;
+        const camera = extent * 3.6, perspective = camera / Math.max(extent * .6, camera - rz2);
+        const fit = Math.min(w, h) / (extent * 3.1) * zoom;
+        return {x: w / 2 + rx * perspective * fit, y: h / 2 + ry * perspective * fit, z: rz2, r: (n.kind === 'root' ? 8 : n.kind === 'directory' ? 5 : 3) * Math.max(.65, perspective) * Math.sqrt(zoom)};
+      }
+      function draw() {
+        const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return;
+        ctx.clearRect(0, 0, w, h);
+        projected = data.nodes.map(n => ({n, p: project(n, w, h)}));
+        const positions = new Map(projected.map(entry => [entry.n.id, entry.p]));
+        for (const e of data.edges) {
+          if (e.kind === 'references' && !$('show-references').checked) continue;
+          const a = positions.get(e.source), b = positions.get(e.target); if (!a || !b) continue;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = e.kind === 'references' ? 'rgba(237,187,101,.38)' : 'rgba(120,153,191,.24)';
+          ctx.lineWidth = e.kind === 'references' ? 1.3 : 1; ctx.stroke();
+        }
+        projected.sort((a, b) => a.p.z - b.p.z);
+        for (const {n, p} of projected) {
+          const active = n.id === selected || n.id === hovered;
+          ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(2, p.r + (active ? 3 : 0)), 0, Math.PI * 2);
+          ctx.fillStyle = colors[n.kind]; ctx.globalAlpha = active ? 1 : Math.max(.45, Math.min(1, .76 + p.z / (extent * 3))); ctx.fill(); ctx.globalAlpha = 1;
+          if (active) { ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke(); }
+          if (n.kind === 'root' || active) { ctx.fillStyle = '#eff5fd'; ctx.font = `${active ? 13 : 11}px system-ui, sans-serif`; ctx.fillText(n.label, p.x + p.r + 7, p.y - p.r - 3); }
+        }
+      }
+      function near(x, y) { let best = null, dBest = 17; for (const {n, p} of projected) { const d = Math.hypot(p.x - x, p.y - y); if (d < dBest) { best = n.id; dBest = d; } } return best; }
+      function choose(id) { selected = id; const n = byId.get(id); $('selected-path').textContent = n ? n.id : 'Select a node or file'; const incoming = data.edges.filter(e => e.target === id && e.kind === 'references').length, outgoing = data.edges.filter(e => e.source === id && e.kind === 'references').length; $('selected-info').textContent = n ? `${n.kind} · depth ${n.depth} · ${incoming} incoming and ${outgoing} outgoing explicit references` : 'Use the canvas or the searchable list below.'; updateList(); draw(); }
+      function updateList() {
+        const query = $('search').value.trim().toLowerCase(), matches = data.nodes.filter(n => n.kind === 'file' && n.id.toLowerCase().includes(query));
+        $('match-count').textContent = matches.length + ' / ' + data.meta.file_count;
+        const frag = document.createDocumentFragment();
+        for (const n of matches) { const li = document.createElement('li'), button = document.createElement('button'), small = document.createElement('small'); button.type = 'button'; button.className = 'item'; button.textContent = n.label; small.textContent = n.id; button.appendChild(small); button.setAttribute('aria-current', n.id === selected ? 'true' : 'false'); button.addEventListener('click', () => choose(n.id)); li.appendChild(button); frag.appendChild(li); }
+        $('file-list').replaceChildren(frag);
+      }
+      canvas.addEventListener('pointerdown', event => { dragging = true; start = {x: event.clientX, y: event.clientY, yaw, pitch}; canvas.setPointerCapture(event.pointerId); });
+      canvas.addEventListener('pointermove', event => { const rect = canvas.getBoundingClientRect(); if (dragging) { yaw = start.yaw + (event.clientX - start.x) * .006; pitch = Math.max(-1.5, Math.min(1.5, start.pitch + (event.clientY - start.y) * .006)); draw(); } else { const next = near(event.clientX - rect.left, event.clientY - rect.top); if (next !== hovered) { hovered = next; draw(); } } });
+      canvas.addEventListener('pointerup', event => { if (!dragging) return; dragging = false; if (Math.hypot(event.clientX - start.x, event.clientY - start.y) < 5) { const rect = canvas.getBoundingClientRect(); choose(near(event.clientX - rect.left, event.clientY - rect.top)); } });
+      canvas.addEventListener('wheel', event => { event.preventDefault(); zoom = Math.max(.35, Math.min(4, zoom * (event.deltaY > 0 ? .9 : 1.1))); draw(); }, {passive: false});
+      canvas.addEventListener('keydown', event => { const step = .16; if (event.key === 'ArrowLeft') yaw -= step; else if (event.key === 'ArrowRight') yaw += step; else if (event.key === 'ArrowUp') pitch = Math.max(-1.5, pitch - step); else if (event.key === 'ArrowDown') pitch = Math.min(1.5, pitch + step); else if (event.key === '+' || event.key === '=') zoom = Math.min(4, zoom * 1.15); else if (event.key === '-') zoom = Math.max(.35, zoom / 1.15); else return; event.preventDefault(); draw(); });
+      [['left', () => yaw -= .2], ['right', () => yaw += .2], ['up', () => pitch = Math.max(-1.5, pitch - .2)], ['down', () => pitch = Math.min(1.5, pitch + .2)], ['reset', () => { yaw = -.36; pitch = -.18; zoom = 1; }], ['zoom-in', () => zoom = Math.min(4, zoom * 1.2)], ['zoom-out', () => zoom = Math.max(.35, zoom / 1.2)]].forEach(([id, action]) => $(id).addEventListener('click', () => { action(); draw(); }));
+      $('show-references').addEventListener('change', draw);
+      $('search').addEventListener('input', updateList);
+      window.addEventListener('resize', resize);
+      updateList(); resize();
+    })();
+  </script>
+</body>
+</html>

@@ -1,20 +1,8 @@
-.rocketride/
-.agents/
-.claude/
+.venv/
 skills-lock.json
-
-# Backend
-backend/venv/
-backend/__pycache__/
-backend/.pytest_cache/
-backend/.env
-backend/local_memory.db
+output/
+__pycache__/
 *.pyc
-
-# Frontend
-node_modules/
-dist/
-build/
 
 # OS
 .DS_Store

@@ -1,0 +1,8 @@
+---
+name: aether_verifier
+description: "Verify Aether outputs, privacy exclusions, and graph coverage."
+skills:
+  - aether-verification
+---
+
+Use `.agents/skills/aether-verification/SKILL.md`. Compare every requested outcome with current sources and observed checks. For graphs, reconcile inventory and nodes and inspect representative edges. For memory, prove rejected content is excluded. Run kit and renderer checks; report unverified viewer behavior plainly.

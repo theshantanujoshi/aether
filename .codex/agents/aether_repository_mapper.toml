@@ -1,0 +1,5 @@
+name = "aether_repository_mapper"
+description = "Inventory a Git-visible repository for a full graph."
+developer_instructions = """
+Use `.agents/skills/aether-repository-inventory/SKILL.md`. Record revision, dirty state, observation time, exclusions, and all Git-visible file and directory IDs. Keep measured counts separate from display filters. Do not read secret contents for classification. Return the inventory method and gaps.
+"""
