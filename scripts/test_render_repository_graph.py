@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -10,7 +11,23 @@ import sys
 import tempfile
 import unittest
 
-import render_repository_graph as renderer
+
+ROOT = Path(__file__).resolve().parents[1]
+SKILL_SCRIPT = ROOT / ".agents/skills/aether-repository-graph-3d/scripts/render_repository_graph.py"
+ROOT_ENTRY_POINT = ROOT / "scripts/render_repository_graph.py"
+sys.dont_write_bytecode = True
+
+
+def load_renderer():
+    """Load the skill-bundled renderer module."""
+    spec = importlib.util.spec_from_file_location("aether_render_repository_graph", SKILL_SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+renderer = load_renderer()
 
 
 class RepositoryGraphTests(unittest.TestCase):
@@ -59,12 +76,28 @@ class RepositoryGraphTests(unittest.TestCase):
     def test_command_writes_openable_artifact(self) -> None:
         output = self.root / "output/repository-graph.html"
         result = subprocess.run([
-            sys.executable, str(Path(renderer.__file__)), "--root", str(self.root),
+            sys.executable, str(SKILL_SCRIPT), "--root", str(self.root),
             "--output", str(output),
         ], capture_output=True, text=True, check=True)
         self.assertTrue(output.is_file())
         self.assertIn("4 files", result.stdout)
         self.assertIn("Repository Atlas", output.read_text(encoding="utf-8"))
+
+    def test_repository_root_entry_point_runs_the_skill_renderer(self) -> None:
+        output = self.root / "output/repository-graph.html"
+        result = subprocess.run([
+            sys.executable, str(ROOT_ENTRY_POINT), "--root", str(self.root),
+            "--output", str(output),
+        ], capture_output=True, text=True, check=True)
+        self.assertTrue(output.is_file())
+        self.assertIn("4 files", result.stdout)
+
+    def test_help_documents_the_command(self) -> None:
+        result = subprocess.run([
+            sys.executable, str(SKILL_SCRIPT), "--help",
+        ], capture_output=True, text=True, check=True)
+        self.assertIn("--root", result.stdout)
+        self.assertIn("--output", result.stdout)
 
 
 if __name__ == "__main__":
