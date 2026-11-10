@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-repository-inventory",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What is actually in this repo right now? Should the graph include untracked files?",
+      "expected_output": "An inventory of the Git-visible working tree, including untracked nonignored files, with the revision, dirty state, observation time, exclusions, and separate file and directory counts.",
+      "assertions": [
+        "Untracked but nonignored files are included in the inventory",
+        "The revision, branch or commit, and dirty worktree state are recorded",
+        "Exclusions such as the Git directory and virtual environments are stated",
+        "File counts and directory counts are reported separately"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Does the graph include node_modules and .venv?",
+      "expected_output": "A direct answer that those paths are excluded by default, with the reason and the effect on the counts.",
+      "assertions": [
+        "The response names the excluded directories explicitly",
+        "The effect on the inventory totals is explained",
+        "No claim is made that excluded files were counted"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "This repo is a sparse checkout - does that affect what we see?",
+      "expected_output": "A statement that a sparse checkout makes the visible set smaller than the upstream repository, recorded as a coverage limit on the inventory.",
+      "assertions": [
+        "The sparse checkout is recorded as a limit on coverage",
+        "The response does not claim full repository coverage",
+        "The inventory method and the visible scope are reported"
+      ]
+    }
+  ]
+}

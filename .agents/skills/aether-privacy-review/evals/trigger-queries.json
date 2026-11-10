@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Before I save this, show me what is in it and let me redact the sensitive parts.",
+    "should_trigger": true
+  },
+  {
+    "query": "Delete the entry about my landlord from my memory and make sure it is really gone.",
+    "should_trigger": true
+  },
+  {
+    "query": "Which of these notes should I keep? Some of them have my passport number in them.",
+    "should_trigger": true
+  },
+  {
+    "query": "I want to approve the first three entries and exclude the rest.",
+    "should_trigger": true
+  },
+  {
+    "query": "Purge the recruiter email I saved last month from every artifact you wrote.",
+    "should_trigger": true
+  },
+  {
+    "query": "Is anything from that batch still sitting in the export file?",
+    "should_trigger": true
+  },
+  {
+    "query": "Hash the passwords in this config file with bcrypt.",
+    "should_trigger": false
+  },
+  {
+    "query": "Add a GDPR cookie banner to my marketing site.",
+    "should_trigger": false
+  },
+  {
+    "query": "Encrypt my home directory with full-disk encryption.",
+    "should_trigger": false
+  },
+  {
+    "query": "Write unit tests for the redaction helper class.",
+    "should_trigger": false
+  }
+]

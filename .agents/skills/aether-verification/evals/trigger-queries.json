@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Is the recap you wrote actually accurate? Check it against the sources.",
+    "should_trigger": true
+  },
+  {
+    "query": "Prove that the entries I rejected are not in the saved memory file.",
+    "should_trigger": true
+  },
+  {
+    "query": "Does the repository graph really cover every file?",
+    "should_trigger": true
+  },
+  {
+    "query": "Before I call this done, verify each requirement in my original request.",
+    "should_trigger": true
+  },
+  {
+    "query": "Check that the backup I just made can actually be restored.",
+    "should_trigger": true
+  },
+  {
+    "query": "Audit this run for anything we claimed without evidence.",
+    "should_trigger": true
+  },
+  {
+    "query": "Run the test suite and fix whatever fails.",
+    "should_trigger": false
+  },
+  {
+    "query": "Review this pull request for code quality issues.",
+    "should_trigger": false
+  },
+  {
+    "query": "Lint the Python files and apply the formatter.",
+    "should_trigger": false
+  },
+  {
+    "query": "Profile the endpoint and tell me where the time goes.",
+    "should_trigger": false
+  }
+]

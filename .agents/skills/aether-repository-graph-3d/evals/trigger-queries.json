@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Make me a 3D view of this codebase I can explore.",
+    "should_trigger": true
+  },
+  {
+    "query": "Render the repo as an interactive graph and tell me what is in it.",
+    "should_trigger": true
+  },
+  {
+    "query": "Generate the repository graph artifact for this checkout.",
+    "should_trigger": true
+  },
+  {
+    "query": "I want to fly through the project structure - can you build that?",
+    "should_trigger": true
+  },
+  {
+    "query": "Produce the HTML graph with the searchable file list.",
+    "should_trigger": true
+  },
+  {
+    "query": "Open the generated graph and check the keyboard and search behavior.",
+    "should_trigger": true
+  },
+  {
+    "query": "Which files in this repo reference each other?",
+    "should_trigger": false
+  },
+  {
+    "query": "Start a local web server that shows this project structure.",
+    "should_trigger": false
+  },
+  {
+    "query": "Make a bar chart of the file counts per directory.",
+    "should_trigger": false
+  },
+  {
+    "query": "Delete the generated files in the output folder.",
+    "should_trigger": false
+  }
+]

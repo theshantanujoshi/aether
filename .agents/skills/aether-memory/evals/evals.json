@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-memory",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Save this to memory and make sure I can find it again next week.",
+      "expected_output": "A small local record with provenance and redaction state written to a stated path, a search over the actual stored records, and a report of where memory lives and how the answer was produced.",
+      "assertions": [
+        "The stored record carries source identifiers, time, and creation metadata",
+        "The storage path is reported to the user",
+        "The answer to a lookup comes from the stored records rather than from inference",
+        "No claim of semantic search is made unless a working implementation was proved"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Delete everything about the Apollo project from my memory.",
+      "expected_output": "A scoped deletion across the related summaries, indexes, and exports, followed by a search that shows the material is absent, with any inaccessible copies reported.",
+      "assertions": [
+        "The deletion covers related records, not only the newest file",
+        "A subsequent search is used to show absence",
+        "Copies that could not be reached are reported rather than assumed gone"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Correct the date on that note - it was Tuesday, not Monday.",
+      "expected_output": "An in-place revision that records who revised the record and when, leaving the original provenance intact.",
+      "assertions": [
+        "The revision records the change, the reviser, and the time",
+        "The original source identifier and content are preserved",
+        "The response confirms the corrected value that will be found by a later search"
+      ]
+    }
+  ]
+}

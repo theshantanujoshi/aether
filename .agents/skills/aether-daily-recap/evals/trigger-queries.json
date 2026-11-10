@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Summarize what I got done today.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write my standup update from yesterday's activity.",
+    "should_trigger": true
+  },
+  {
+    "query": "What were my workstreams last week and what's still open?",
+    "should_trigger": true
+  },
+  {
+    "query": "Give me a timeline of Thursday from my records.",
+    "should_trigger": true
+  },
+  {
+    "query": "Turn my activity into a weekly review I can read on Friday.",
+    "should_trigger": true
+  },
+  {
+    "query": "Highlights and open loops from this week's approved notes, please.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a commit message for the changes in my working tree.",
+    "should_trigger": false
+  },
+  {
+    "query": "Summarize the quarterly earnings report PDF.",
+    "should_trigger": false
+  },
+  {
+    "query": "Draft a performance review for my colleague.",
+    "should_trigger": false
+  },
+  {
+    "query": "Explain how the payroll service computes taxes.",
+    "should_trigger": false
+  }
+]

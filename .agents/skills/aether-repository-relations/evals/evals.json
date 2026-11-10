@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-repository-relations",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "How do the files in this repo relate to each other?",
+      "expected_output": "Containment edges derived from real parent directories and reference edges matched from paths that literally appear in a file, each with its source file, plus a report of the relation counts and the edge types that were left out.",
+      "assertions": [
+        "Containment edges come from actual parent directories",
+        "Each reference edge records the source file and the matched target",
+        "Import, call, and runtime relations are absent unless separately verified",
+        "The report names the relation counts and the omitted edge types"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Can you add edges for the function calls too?",
+      "expected_output": "An explanation that call relations need source evidence, a proposal to derive them from the source syntax or execution evidence, and a clear separation between observed reference edges and newly measured call edges.",
+      "assertions": [
+        "Call edges are not added from proximity, naming, or layout",
+        "The method for measuring call edges is stated before they are drawn",
+        "Existing reference and containment edges stay distinguishable from the new ones"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The README mentions three other files - connect them.",
+      "expected_output": "Reference edges for the mentioned paths that exist in the inventory, with the matching line recorded, and any mentioned path that is not inventoried reported instead of drawn.",
+      "assertions": [
+        "The matched line number is recorded for each reference edge",
+        "A mentioned path that is not in the inventory is reported rather than drawn",
+        "Duplicate mentions of the same target produce one edge"
+      ]
+    }
+  ]
+}

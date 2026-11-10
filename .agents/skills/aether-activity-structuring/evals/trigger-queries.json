@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Normalize these approved activity logs into records I can build a recap from.",
+    "should_trigger": true
+  },
+  {
+    "query": "Deduplicate the events in this export and give each one a source id.",
+    "should_trigger": true
+  },
+  {
+    "query": "Turn this raw timeline into structured activity records with timestamps and confidence.",
+    "should_trigger": true
+  },
+  {
+    "query": "I have events from three days - help me put them in order and mark which ones are inferences.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a clean event table from my notes for the project review.",
+    "should_trigger": true
+  },
+  {
+    "query": "Which of these log entries are the same event repeated?",
+    "should_trigger": true
+  },
+  {
+    "query": "Parse this JSON API response into a clean data structure.",
+    "should_trigger": false
+  },
+  {
+    "query": "Write a cron job that writes these logs to a database every hour.",
+    "should_trigger": false
+  },
+  {
+    "query": "Refactor this module so the classes are easier to test.",
+    "should_trigger": false
+  },
+  {
+    "query": "Translate this German document into English.",
+    "should_trigger": false
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Summarize my week and remember the useful parts so I can find them later.",
+    "should_trigger": true
+  },
+  {
+    "query": "I want a daily recap of my work from my notes and my shell history.",
+    "should_trigger": true
+  },
+  {
+    "query": "Turn this activity into something I can search later, but check with me before saving anything.",
+    "should_trigger": true
+  },
+  {
+    "query": "Walk me through the full flow for what I did on Tuesday: gather it, review it, then keep it.",
+    "should_trigger": true
+  },
+  {
+    "query": "Can you pull together my workstreams and open loops from last month?",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a recap plus persistent notes about it - what is the process?",
+    "should_trigger": true
+  },
+  {
+    "query": "What files changed in this repo between those two commits?",
+    "should_trigger": false
+  },
+  {
+    "query": "Give me a 3D map of this codebase.",
+    "should_trigger": false
+  },
+  {
+    "query": "Set up a Postgres schema for tracking my habits.",
+    "should_trigger": false
+  },
+  {
+    "query": "Summarize this PDF for me.",
+    "should_trigger": false
+  }
+]

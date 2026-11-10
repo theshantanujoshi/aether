@@ -1,0 +1,37 @@
+{
+  "skill_name": "aether-verification",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Is the recap you just wrote actually correct?",
+      "expected_output": "A requirement-by-requirement check that traces a sample of claims back to the approved source material, runs the relevant checks, and states what was inspected, what passed, and what remains unverified.",
+      "assertions": [
+        "At least one material claim is traced back to an approved source",
+        "The commands or checks that were run are listed",
+        "Sampled checks are reported as samples rather than as a complete scan",
+        "Anything not inspected is named as unverified"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Can you prove the items I rejected aren't in the memory file or the export?",
+      "expected_output": "A sentinel-based absence check across the persistent file, the export, and the backup path in scope, showing the search result for each artifact.",
+      "assertions": [
+        "Absence is demonstrated with a search result for each artifact in scope",
+        "The memory file, the export, and the backup path are each checked",
+        "Artifacts that could not be searched are reported"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Does the graph cover the whole repository?",
+      "expected_output": "A reconciliation of the Git-visible inventory with the nodes embedded in the artifact, an inspection of representative containment and reference edges, and a statement of exclusions and worktree state.",
+      "assertions": [
+        "The embedded node list is compared with the Git-visible inventory",
+        "Representative containment and reference edges are inspected against the real files",
+        "Exclusions and the dirty worktree state are stated",
+        "No claim is made that a sampled inspection proves full coverage"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-repository-graph-3d",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you make a 3D map of this repo I can explore?",
+      "expected_output": "A standalone local HTML artifact rendered by the bundled script, with the counts, revision, generated time, and exclusions inspected, and the search, file-list fallback, and keyboard controls checked.",
+      "assertions": [
+        "The artifact is one local HTML file with no network request and no CDN script",
+        "The counts, revision, generated time, and exclusions in the artifact are inspected",
+        "Containment and reference edges appear as separate legend entries",
+        "The search, the file-list fallback, and keyboard operation are checked"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I can't open the HTML - did you verify it works?",
+      "expected_output": "A straight statement of what was verified and what was not, naming the browser inspection as unverified when it could not be performed.",
+      "assertions": [
+        "The response separates the checks that ran from the browser inspection that did not",
+        "Visual inspection is reported as unverified instead of implied by a passing test",
+        "The artifact path and the measured counts are still reported"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Put the graph on a dashboard so the team can see it.",
+      "expected_output": "A push back on adding a server or dashboard, with the standalone local artifact offered as the deliverable and the sharing risk of exposed file names stated.",
+      "assertions": [
+        "No server, dashboard, or hosted pipeline is added",
+        "The standalone HTML file remains the deliverable",
+        "The response warns that file names can reveal private project structure before sharing"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "query": "What files and folders are actually in this repository right now?",
+    "should_trigger": true
+  },
+  {
+    "query": "Give me the inventory of the working tree before we draw the graph.",
+    "should_trigger": true
+  },
+  {
+    "query": "How many files does this checkout contain, and are we counting untracked ones?",
+    "should_trigger": true
+  },
+  {
+    "query": "I want the graph to show the current branch including my uncommitted files.",
+    "should_trigger": true
+  },
+  {
+    "query": "Which directories should be excluded from a repository view?",
+    "should_trigger": true
+  },
+  {
+    "query": "Snapshot the file list of this repo at commit abc1234.",
+    "should_trigger": true
+  },
+  {
+    "query": "Which function calls which other function in this codebase?",
+    "should_trigger": false
+  },
+  {
+    "query": "Show me the 3D graph of this repository.",
+    "should_trigger": false
+  },
+  {
+    "query": "Count the lines of code in this project.",
+    "should_trigger": false
+  },
+  {
+    "query": "Find the TODO comments in the source tree.",
+    "should_trigger": false
+  }
+]
