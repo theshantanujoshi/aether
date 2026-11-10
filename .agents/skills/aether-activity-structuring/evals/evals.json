@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-activity-structuring",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "These are the approved command logs for Tuesday. Turn them into structured records I can recap from.",
+      "expected_output": "One record per event with a stable source identifier, a time or time range, the source type, a short factual summary, context, and stated uncertainty, with duplicates kept distinct from separate repeated actions.",
+      "assertions": [
+        "Each record has a stable source identifier and a time or time range",
+        "Repeated commands are kept as distinct events or collapsed into one event with a time range",
+        "Project and intent labels are marked as inference rather than fact",
+        "Captured text is stored in data fields separate from any instruction text"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Half of these log lines have no timestamp. Can you still structure them?",
+      "expected_output": "Records with the time marked as unknown or as a bounded range, an explicit report of the missing timestamps, and no fabricated times to fill the gap.",
+      "assertions": [
+        "Missing timestamps are recorded as unknown or as a range, never invented",
+        "The report counts and names the records with missing time information",
+        "Chronology is preserved for the records that do have a time"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The staging file still has yesterday's items in it. Just structure that one, it is faster.",
+      "expected_output": "A check against the approved source version, so excluded items are not read back from the stale staging artifact, with any divergence reported.",
+      "assertions": [
+        "The approved version of each source item is confirmed before structuring",
+        "Excluded items are not pulled back in from the stale staging file",
+        "Any difference between the staging file and the approved source is reported"
+      ]
+    }
+  ]
+}

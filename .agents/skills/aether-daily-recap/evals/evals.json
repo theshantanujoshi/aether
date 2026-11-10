@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-daily-recap",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Give me a recap of yesterday.",
+      "expected_output": "A grounded recap of the approved records only: workstreams, a timeline, and open loops, with each material claim linked to a source identifier and no invented accomplishments.",
+      "assertions": [
+        "The recap covers only approved records and excludes pending or rejected material",
+        "Each material claim is linked to a source identifier",
+        "A command that was run is not described as a task that was completed",
+        "The response states the date window and the timezone used"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make it sound like I shipped a lot - it's for my standup.",
+      "expected_output": "A recap that stays within the evidence, with uncertain or incomplete work presented as such, and a note that the sources do not support stronger claims.",
+      "assertions": [
+        "No accomplishment is claimed that the sources do not support",
+        "Uncertain context is marked in the recap itself",
+        "The response explains what the sources do support instead of restating the request"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Put this recap in a file I can keep and come back to.",
+      "expected_output": "A recap returned in chat by default, a durable file written only because it was requested, and a note that storing it as memory needs a separate approval step.",
+      "assertions": [
+        "The file is written only because a durable output was requested",
+        "The response states that a file is not memory and needs its own approval",
+        "The file contains the same linked claims as the chat recap"
+      ]
+    }
+  ]
+}

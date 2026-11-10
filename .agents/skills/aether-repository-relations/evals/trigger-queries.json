@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Which files in this repo reference each other?",
+    "should_trigger": true
+  },
+  {
+    "query": "Work out the edges for the graph - containment and real references only.",
+    "should_trigger": true
+  },
+  {
+    "query": "The README points at other docs - can you wire those up?",
+    "should_trigger": true
+  },
+  {
+    "query": "How are the folders and files in this project connected?",
+    "should_trigger": true
+  },
+  {
+    "query": "Add import edges between the modules in this package.",
+    "should_trigger": true
+  },
+  {
+    "query": "List every path mentioned inside a source file and where it points.",
+    "should_trigger": true
+  },
+  {
+    "query": "Generate the 3D graph of this repository.",
+    "should_trigger": false
+  },
+  {
+    "query": "List every file tracked by git in this repository.",
+    "should_trigger": false
+  },
+  {
+    "query": "Find the circular dependencies in the import graph.",
+    "should_trigger": false
+  },
+  {
+    "query": "Generate a dependency report for the npm packages.",
+    "should_trigger": false
+  }
+]

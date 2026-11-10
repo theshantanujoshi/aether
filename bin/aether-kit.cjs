@@ -12,6 +12,7 @@ const installedPaths = [
   '.codex/agents',
   'scripts/render_repository_graph.py',
 ];
+const skippedDirectories = new Set(['__pycache__', 'node_modules']);
 
 function collectFiles(relativePath) {
   const source = path.join(packageRoot, relativePath);
@@ -19,7 +20,12 @@ function collectFiles(relativePath) {
   if (info.isSymbolicLink()) throw new Error(`Package contains a symlink: ${relativePath}`);
   if (info.isFile()) return [relativePath];
   if (!info.isDirectory()) throw new Error(`Unsupported package entry: ${relativePath}`);
-  return fs.readdirSync(source).flatMap((name) => collectFiles(path.join(relativePath, name)));
+  return fs.readdirSync(source).flatMap((name) => {
+    if (skippedDirectories.has(name)) return [];
+    const child = path.join(relativePath, name);
+    if (fs.lstatSync(path.join(packageRoot, child)).isFile() && name.endsWith('.pyc')) return [];
+    return collectFiles(child);
+  });
 }
 
 function checkDestination(root, relativePath) {

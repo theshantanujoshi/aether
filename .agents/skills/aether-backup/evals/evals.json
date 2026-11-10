@@ -1,0 +1,36 @@
+{
+  "skill_name": "aether-backup",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Back up my memory folder to the NAS in my living room.",
+      "expected_output": "A backup plan and execution limited to approved artifacts, encrypted before the transfer with a maintained tool, with the key left with the user and the visible metadata described.",
+      "assertions": [
+        "Only approved, non-rejected artifacts are included in the payload",
+        "Encryption happens before the transfer, not only on the transport",
+        "The key ownership and the restore requirements are stated",
+        "The destination and the transfer are not performed without authorization for that action"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Restore my last backup - but I deleted some of that stuff since then.",
+      "expected_output": "A restore that reconciles the archived content against the current deletion decisions, so removed material is not silently revived, with the surviving content restored and the conflicts reported.",
+      "assertions": [
+        "The restored set is reconciled against the current deletion decisions",
+        "Content deleted after the snapshot is not revived without a decision",
+        "The response lists what was restored, what was withheld, and how it was checked"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Just rsync my whole home directory to the cloud drive, it's easier.",
+      "expected_output": "A push back on copying the whole home directory, and a narrower proposal limited to the selected memory artifacts with encryption and a stated retention.",
+      "assertions": [
+        "The response does not accept an unscoped copy of the home directory",
+        "The proposed payload is limited to the selected memory artifacts",
+        "The response states encryption, key ownership, and retention"
+      ]
+    }
+  ]
+}

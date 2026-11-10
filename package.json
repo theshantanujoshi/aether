@@ -1,7 +1,7 @@
 {
   "name": "aether-agent-suite",
-  "version": "0.1.0",
-  "description": "Local-first agent skills for reviewed activity memory and repository visualization",
+  "version": "0.2.0",
+  "description": "Local-first skill kit for reviewed activity memory and repository visualization",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -37,7 +37,8 @@
     "pack:check": "npm pack --dry-run"
   },
   "keywords": [
-    "agent-skills",
+    "aether",
+    "skills",
     "codex",
     "claude",
     "personal-memory",

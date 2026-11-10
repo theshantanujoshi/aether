@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Remember that my daughter's checkup is on the 14th so I can find it later.",
+    "should_trigger": true
+  },
+  {
+    "query": "What did I decide about the apartment lease? Check what you've saved.",
+    "should_trigger": true
+  },
+  {
+    "query": "Forget the note about the job offer, I took the other one.",
+    "should_trigger": true
+  },
+  {
+    "query": "Save my notes on the conference talk so I can find them by topic.",
+    "should_trigger": true
+  },
+  {
+    "query": "Export everything you have stored about my running training.",
+    "should_trigger": true
+  },
+  {
+    "query": "Update that stored note - I moved to a new team.",
+    "should_trigger": true
+  },
+  {
+    "query": "Set up a vector database with embeddings for our docs.",
+    "should_trigger": false
+  },
+  {
+    "query": "Post this message to the #general channel for me.",
+    "should_trigger": false
+  },
+  {
+    "query": "Add a cache layer in front of the Redis instance.",
+    "should_trigger": false
+  },
+  {
+    "query": "Write unit tests for the storage adapter.",
+    "should_trigger": false
+  }
+]

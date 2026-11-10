@@ -18,7 +18,11 @@ test('installs the skill kit and preserves existing files', (t) => {
   for (const file of [
     'AGENTS.md',
     '.agents/skills/aether-workflow/SKILL.md',
+    '.agents/skills/aether-workflow/evals/evals.json',
+    '.agents/skills/aether-workflow/evals/trigger-queries.json',
+    '.agents/skills/aether-verification/references/evidence.md',
     '.agents/skills/aether-repository-graph-3d/assets/graph.html',
+    '.agents/skills/aether-repository-graph-3d/scripts/render_repository_graph.py',
     '.claude/agents/aether_coordinator.md',
     '.codex/agents/aether_coordinator.toml',
     'scripts/render_repository_graph.py',
@@ -32,6 +36,19 @@ test('installs the skill kit and preserves existing files', (t) => {
   assert.equal(second.status, 1);
   assert.match(second.stderr, /Existing files would be overwritten/);
   assert.equal(fs.readFileSync(skill, 'utf8'), before);
+});
+
+test('installed skill folders are self-contained', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'aether-kit-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+
+  const result = spawnSync(process.execPath, [cli, 'install'], { cwd: root, encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+
+  const renderer = path.join(root, '.agents/skills/aether-repository-graph-3d/scripts/render_repository_graph.py');
+  const entryPoint = path.join(root, 'scripts/render_repository_graph.py');
+  assert.match(fs.readFileSync(renderer, 'utf8'), /assets\/graph\.html/);
+  assert.match(fs.readFileSync(entryPoint, 'utf8'), /\.agents\/skills\/aether-repository-graph-3d\/scripts/);
 });
 
 test('keeps an existing AGENTS.md', (t) => {

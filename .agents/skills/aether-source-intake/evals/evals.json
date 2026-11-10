@@ -1,0 +1,37 @@
+{
+  "skill_name": "aether-source-intake",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Gather my shell history from last Monday to Wednesday so I can review what I worked on.",
+      "expected_output": "A bounded set of history records with timestamps, source identity, and stated uncertainty, deduplicated without merging distinct events, plus a report of the sources, time range, and coverage.",
+      "assertions": [
+        "The response reads only the named source and the requested date range",
+        "Each record carries a timestamp and a source identifier",
+        "Repeated commands are reported as one event with a time range rather than several events",
+        "The report names the sources, the time range, the exclusions, and the checks performed"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here's my notes folder and my browser export. Pull together everything you can find about my side project.",
+      "expected_output": "Only the two named sources are gathered, unavailable formats and skipped files are reported as gaps, and inferred project labels are kept separate from observed events.",
+      "assertions": [
+        "No source outside the two named locations is read",
+        "Unreadable or skipped formats are reported as gaps rather than substituted",
+        "Inferred project context is labeled as an inference, not an observation",
+        "The response does not start or claim a continuous collection process"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Can you check my mail archive too, I think it will help fill in the gaps.",
+      "expected_output": "A narrow confirmation of the source scope, because mail is a new source that was not selected, with the proposed addition and its provenance recorded before it is read.",
+      "assertions": [
+        "The mail archive is treated as a new source that requires confirmation before it is read",
+        "The response does not silently widen the source scope",
+        "The added source would be recorded with its own provenance and time range"
+      ]
+    }
+  ]
+}

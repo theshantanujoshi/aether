@@ -1,10 +1,19 @@
-"""Generate matching Codex agents, Claude agents, and Claude skill entries."""
+"""Generate matching Codex agents, Claude agents, and Claude skill entries.
+
+The canonical skills live in `.agents/skills/`. This script derives the
+client-specific entries from them so a Claude or Codex user sees the same
+skill names, descriptions, and metadata. Run it after changing a canonical
+skill, then run `python scripts/validate_agent_kit.py` to confirm the tree is
+in sync.
+"""
 
 from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
+
+from skill_format import read_skill
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,9 +28,32 @@ ENTRIES = [
     ("aether-backup", "aether_backup_specialist", "Handle optional backup or restore of approved memory.", "Confirm payload scope, destination, retention, and authorization. Encrypt before remote upload with a maintained tool, keep keys with the user, and exclude rejected or purged material. Test restore and deletion with synthetic data when possible."),
     ("aether-repository-inventory", "aether_repository_mapper", "Inventory a Git-visible repository for a full graph.", "Record revision, dirty state, observation time, exclusions, and all Git-visible file and directory IDs. Keep measured counts separate from display filters. Do not read secret contents for classification. Return the inventory method and gaps."),
     ("aether-repository-relations", "aether_relation_analyst", "Verify containment and explicit references for graph edges.", "Use the inventory's exact revision and scope. Derive containment from parent paths and reference edges from source matches. Keep import, call, and runtime edges absent unless separately verified. Return edge types, counts, evidence, and omissions."),
-    ("aether-repository-graph-3d", "aether_graph_renderer", "Render an inspectable local 3D repository graph.", "Use the inventory and relations skills. Generate a standalone local artifact with scripts/render_repository_graph.py, then check counts, search, keyboard controls, text fallback, and a browser view when available. Keep graph data local and never invent edges from layout."),
+    ("aether-repository-graph-3d", "aether_graph_renderer", "Render an inspectable local 3D repository graph.", "Use the inventory and relations skills. Generate a standalone local artifact with the skill-bundled renderer, then check counts, search, keyboard controls, text fallback, and a browser view when available. Keep graph data local and never invent edges from layout."),
     ("aether-verification", "aether_verifier", "Verify Aether outputs, privacy exclusions, and graph coverage.", "Compare every requested outcome with current sources and observed checks. For graphs, reconcile inventory and nodes and inspect representative edges. For memory, prove rejected content is excluded. Run kit and renderer checks; report unverified viewer behavior plainly."),
 ]
+
+# Shared contract files are owned by one skill and mirrored into the skills that
+# read them, so every skill folder stays self-contained and portable.
+MIRRORED_REFERENCES = {
+    ".agents/skills/aether-verification/references/evidence.md": ".agents/skills/aether-workflow/references/evidence.md",
+}
+
+
+def skill_frontmatter(skill: str, include_optional: bool = True) -> list[str]:
+    """Render the frontmatter block for a canonical skill."""
+    fields = read_skill(ROOT / ".agents/skills" / skill / "SKILL.md").fields
+    lines = [f"name: {skill}", f"description: {json.dumps(fields.get('description', ''))}"]
+    if not include_optional:
+        return lines
+    for key in ("license", "compatibility"):
+        if key in fields:
+            lines.append(f"{key}: {fields[key]}")
+    metadata = fields.get("metadata")
+    if isinstance(metadata, dict) and metadata:
+        lines.append("metadata:")
+        for key, value in metadata.items():
+            lines.append(f"  {key}: {json.dumps(value)}")
+    return lines
 
 
 def outputs() -> dict[Path, str]:
@@ -37,11 +69,14 @@ def outputs() -> dict[Path, str]:
             f"---\nname: {agent}\ndescription: {json.dumps(description)}\n"
             f"skills:\n  - {skill}\n---\n\nUse `{canonical}`. {instructions}\n"
         )
+        frontmatter = "\n".join(skill_frontmatter(skill, include_optional=False))
         files[ROOT / ".claude/skills" / skill / "SKILL.md"] = (
-            f"---\nname: {skill}\ndescription: {json.dumps(description)}\n---\n\n"
+            f"---\n{frontmatter}\n---\n\n"
             f"Read `{canonical}` from the repository root and follow that canonical skill. "
             "Resolve its relative references from its own directory.\n"
         )
+    for destination, source in MIRRORED_REFERENCES.items():
+        files[ROOT / destination] = (ROOT / source).read_text(encoding="utf-8")
     return files
 
 
@@ -58,7 +93,8 @@ def main() -> int:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content, encoding="utf-8")
     if mismatches:
-        print("Out of sync:\n" + "\n".join(mismatches))
+        print("Out of sync:")
+        print("\n".join(mismatches))
         return 1
     print(f"{'Checked' if args.check else 'Wrote'} {len(ENTRIES)} Codex agents, Claude agents, and Claude skill entries.")
     return 0

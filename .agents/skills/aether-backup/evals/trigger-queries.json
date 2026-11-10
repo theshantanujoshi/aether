@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Make a secure copy of my Aether memory files so I can restore them later.",
+    "should_trigger": true
+  },
+  {
+    "query": "Back up the notes folder to my NAS with an encrypted archive.",
+    "should_trigger": true
+  },
+  {
+    "query": "How should I design the backup policy for my memory if I want it off-site?",
+    "should_trigger": true
+  },
+  {
+    "query": "Restore what I saved three weeks ago from the archive.",
+    "should_trigger": true
+  },
+  {
+    "query": "Delete the old backups but keep the newest one.",
+    "should_trigger": true
+  },
+  {
+    "query": "Can you snapshot my notes before I make a big change to them?",
+    "should_trigger": true
+  },
+  {
+    "query": "Set up an S3 bucket with versioning and a lifecycle policy.",
+    "should_trigger": false
+  },
+  {
+    "query": "Add a nightly cron job that rsyncs the build folder.",
+    "should_trigger": false
+  },
+  {
+    "query": "Explain the difference between symmetric and asymmetric encryption.",
+    "should_trigger": false
+  },
+  {
+    "query": "Restore my database from the dump file.",
+    "should_trigger": false
+  }
+]

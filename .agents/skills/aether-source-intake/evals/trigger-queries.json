@@ -1,0 +1,42 @@
+[
+  {
+    "query": "Collect the commands I ran from my zsh history for last Tuesday.",
+    "should_trigger": true
+  },
+  {
+    "query": "My notes and my terminal log both have the sprint in them - pull the two together.",
+    "should_trigger": true
+  },
+  {
+    "query": "What files did I open in my editor yesterday? I only want that window of time.",
+    "should_trigger": true
+  },
+  {
+    "query": "Gather the screenshots I saved this morning so I can write them up.",
+    "should_trigger": true
+  },
+  {
+    "query": "Pull my browser history export for the research I did on the pricing page.",
+    "should_trigger": true
+  },
+  {
+    "query": "Read the two log files in my projects folder and tell me what activity they describe.",
+    "should_trigger": true
+  },
+  {
+    "query": "Grep this codebase for every TODO comment and group them by file.",
+    "should_trigger": false
+  },
+  {
+    "query": "Ingest these CSVs into Postgres and give me a dashboard.",
+    "should_trigger": false
+  },
+  {
+    "query": "Download the log files from our production server and archive them.",
+    "should_trigger": false
+  },
+  {
+    "query": "Write a script that tails my shell history and posts it to a webhook.",
+    "should_trigger": false
+  }
+]
