@@ -27,7 +27,7 @@ def check() -> list[str]:
         path = ROOT / ".agents/skills" / skill / "SKILL.md"
         if path.is_file():
             body = path.read_text(encoding="utf-8")
-            match = re.match(r"\A---\nname: ([a-z0-9-]+)\ndescription: .+\n---\n", body)
+            match = re.match(r"\A---\nname: ([a-z0-9-]+)\ndescription: .+\n.*?---\n", body, re.DOTALL)
             if not match or match.group(1) != skill:
                 errors.append(f"Invalid frontmatter: {path.relative_to(ROOT)}")
         if f"`{skill}`" not in coverage or f"`{agent}`" not in coverage:
