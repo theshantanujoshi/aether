@@ -15,3 +15,20 @@
 | Output and privacy verification | `aether-verification` | `aether_verifier` |
 
 The kit provides workflows, not a prebuilt activity-memory runtime. Read each skill's scope before selecting it. The graph renderer is a support script that produces an on-demand local artifact.
+
+## Skill folders
+
+Each skill is a portable folder under `.agents/skills/`:
+
+```
+aether-<name>/
+├── SKILL.md                       # frontmatter and instructions
+├── references/                    # optional detail loaded on demand
+├── scripts/                       # optional executable helpers
+├── assets/                        # optional templates and static resources
+└── evals/
+    ├── evals.json                 # behavior cases with expected output and assertions
+    └── trigger-queries.json       # prompts labeled should_trigger or not
+```
+
+`evals/evals.json` covers what the skill should produce; `evals/trigger-queries.json` covers when the skill should load, including near-misses that need a different skill. `python scripts/validate_evals.py` reports the coverage of both sets.
